@@ -180,28 +180,36 @@ function App() {
           defaultDate={dateMode === "custom" ? selectedDate : ""}
         />
 
-        <div className="toolbar">
-          <input
-            type="search"
-            className="search-input"
-            placeholder="Search tasks by title, description, or category..."
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            aria-label="Sort tasks"
-          >
-            <option value="added">Sort: Order Added</option>
-            <option value="dueDate">Sort: Due Date & Time</option>
-            <option value="priority">Sort: Priority (High → Low)</option>
-          </select>
-        </div>
+        {todos.length > 0 && (
+          <div className="toolbar">
+            <input
+              type="search"
+              className="search-input"
+              placeholder="Search tasks..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+            <div className="sort-pills" role="group" aria-label="Sort tasks">
+              {[
+                { id: "added", label: "Order Added" },
+                { id: "dueDate", label: "By Date" },
+                { id: "priority", label: "By Priority" },
+              ].map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  className={`sort-pill ${sortBy === s.id ? "active" : ""}`}
+                  onClick={() => setSortBy(s.id)}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="error" role="alert">

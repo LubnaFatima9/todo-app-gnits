@@ -8,6 +8,7 @@ function TodoForm({ onAdd, defaultDate }) {
   const [dueTime, setDueTime] = useState("");
   const [priority, setPriority] = useState("medium");
   const [category, setCategory] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     if (defaultDate) {
@@ -29,6 +30,9 @@ function TodoForm({ onAdd, defaultDate }) {
     setTitle("");
     setDescription("");
     setDueTime("");
+    setPriority("medium");
+    setCategory("");
+    setShowDetails(false);
   };
 
   return (
@@ -42,62 +46,116 @@ function TodoForm({ onAdd, defaultDate }) {
           autoFocus
         />
         <button type="submit" disabled={!title.trim()}>
-          Add
+          Add Task
         </button>
       </div>
 
-      <div className="todo-form-extras">
-        <input
-          type="text"
-          className="extra-input extra-desc"
-          placeholder="Optional description or notes..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <div className="extra-controls">
+      {/* Quick schedule row: always simple and easy to scan */}
+      <div className="quick-bar">
+        <label className="quick-chip chip-blue" title="Choose date">
+          <span className="chip-label">Date:</span>
           <input
             type="date"
-            className="extra-input"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
             aria-label="Due date"
-            title="Due date"
           />
+        </label>
+
+        <label className="quick-chip chip-green" title="Choose time (optional)">
+          <span className="chip-label">Time:</span>
           <input
             type="time"
-            className="extra-input"
             value={dueTime}
             onChange={(e) => setDueTime(e.target.value)}
             aria-label="Due time"
-            title="Due time (optional)"
           />
-          <select
-            className="extra-input"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            aria-label="Priority"
-            title="Priority"
-          >
-            <option value="low">Low priority</option>
-            <option value="medium">Medium priority</option>
-            <option value="high">High priority</option>
-          </select>
-          <select
-            className="extra-input"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            aria-label="Category"
-            title="Category (optional)"
-          >
-            <option value="">No category</option>
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
+          {dueTime && (
+            <button
+              type="button"
+              className="chip-clear"
+              onClick={(e) => {
+                e.preventDefault();
+                setDueTime("");
+              }}
+              title="Clear time"
+            >
+              ×
+            </button>
+          )}
+        </label>
+
+        <button
+          type="button"
+          className={`details-toggle ${
+            showDetails || description || category || priority !== "medium"
+              ? "active"
+              : ""
+          }`}
+          onClick={() => setShowDetails((prev) => !prev)}
+        >
+          {showDetails
+            ? "− Hide description & tags"
+            : "+ Add description & priority"}
+        </button>
       </div>
+
+      {/* Expandable optional details: description, priority pills, category pills */}
+      {showDetails && (
+        <div className="details-drawer">
+          <input
+            type="text"
+            className="desc-input"
+            placeholder="Add an optional description or note for this task..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <div className="pill-groups">
+            <div className="pill-group">
+              <span className="pill-group-label">Priority:</span>
+              <div className="pill-options">
+                {[
+                  { id: "low", label: "Low", color: "green" },
+                  { id: "medium", label: "Medium", color: "blue" },
+                  { id: "high", label: "High", color: "pink" },
+                ].map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className={`choice-pill pill-${p.color} ${
+                      priority === p.id ? "selected" : ""
+                    }`}
+                    onClick={() => setPriority(p.id)}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="pill-group">
+              <span className="pill-group-label">Tag:</span>
+              <div className="pill-options">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`choice-pill pill-blue ${
+                      category === cat ? "selected" : ""
+                    }`}
+                    onClick={() =>
+                      setCategory((prev) => (prev === cat ? "" : cat))
+                    }
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

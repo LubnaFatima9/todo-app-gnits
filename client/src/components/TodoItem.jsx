@@ -113,50 +113,68 @@ function TodoItem({ todo, onUpdate, onDelete }) {
           <input
             className="edit-input edit-desc-input"
             value={description}
-            placeholder="Optional description..."
+            placeholder="Optional description or notes..."
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSave(e);
             }}
           />
+
           <div className="edit-meta-row">
-            <input
-              type="date"
-              className="edit-select"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              aria-label="Edit date"
-            />
-            <input
-              type="time"
-              className="edit-select"
-              value={dueTime}
-              onChange={(e) => setDueTime(e.target.value)}
-              aria-label="Edit time"
-            />
-            <select
-              className="edit-select"
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              aria-label="Edit priority"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <select
-              className="edit-select"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              aria-label="Edit category"
-            >
-              <option value="">No category</option>
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
+            <label className="quick-chip chip-blue">
+              <span className="chip-label">Date:</span>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                aria-label="Edit date"
+              />
+            </label>
+            <label className="quick-chip chip-green">
+              <span className="chip-label">Time:</span>
+              <input
+                type="time"
+                value={dueTime}
+                onChange={(e) => setDueTime(e.target.value)}
+                aria-label="Edit time"
+              />
+            </label>
+          </div>
+
+          <div className="edit-pills-row">
+            <div className="pill-options">
+              {[
+                { id: "low", label: "Low", color: "green" },
+                { id: "medium", label: "Medium", color: "blue" },
+                { id: "high", label: "High", color: "pink" },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`choice-pill pill-${p.color} ${
+                    priority === p.id ? "selected" : ""
+                  }`}
+                  onClick={() => setPriority(p.id)}
+                >
+                  {p.label}
+                </button>
               ))}
-            </select>
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`choice-pill pill-blue ${
+                    category === cat ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    setCategory((prev) => (prev === cat ? "" : cat))
+                  }
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
             <div className="edit-actions">
               <button
                 type="button"
@@ -179,7 +197,7 @@ function TodoItem({ todo, onUpdate, onDelete }) {
         <div className="todo-text" onDoubleClick={startEditing}>
           <div className="title-row">
             <span className="title">{todo.title}</span>
-            {todo.priority && todo.priority !== "medium" && (
+            {todo.priority && (
               <span className={`badge badge-priority-${todo.priority}`}>
                 {todo.priority}
               </span>
@@ -194,11 +212,10 @@ function TodoItem({ todo, onUpdate, onDelete }) {
           )}
 
           <div className="meta-row">
-            <span className={`meta ${overdue ? "meta-overdue" : ""}`}>
-              {todo.dueDate ? "Scheduled: " : "Added "}
-              {effectiveDate}
-              {todo.dueTime ? ` at ${formatDueTime(todo.dueTime)}` : ""}
-              {overdue ? " • Overdue" : ""}
+            <span className={`meta-pill ${overdue ? "meta-overdue" : ""}`}>
+              📅 {effectiveDate}
+              {todo.dueTime ? ` • ⏰ ${formatDueTime(todo.dueTime)}` : ""}
+              {overdue ? " (Overdue)" : ""}
             </span>
           </div>
         </div>
