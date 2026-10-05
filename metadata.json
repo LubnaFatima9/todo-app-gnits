@@ -1,0 +1,5 @@
+{
+  "name": "Being Infinity's Todo App",
+  "description": "A full-stack Todo application built with React, Vite, Node.js, Express, and MongoDB.",
+  "requestFramePermissions": []
+}
