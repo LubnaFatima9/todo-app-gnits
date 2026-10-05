@@ -12,12 +12,14 @@ const request = async (url, options) => {
 
 export const getTodos = () => request(API_URL);
 
-export const createTodo = (title) =>
-  request(API_URL, {
+export const createTodo = (payload) => {
+  const body = typeof payload === "string" ? { title: payload } : payload;
+  return request(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title }),
+    body: JSON.stringify(body),
   });
+};
 
 export const updateTodo = (id, data) =>
   request(`${API_URL}/${id}`, {

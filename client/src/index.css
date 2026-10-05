@@ -50,7 +50,9 @@ body {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font-family: inherit;
   color: inherit;
 }
@@ -515,3 +517,325 @@ h2 {
     font-size: 22px;
   }
 }
+
+/* Sidebar schedule & date picker */
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  padding: 0 4px;
+}
+
+.count-danger {
+  background: var(--danger-bg) !important;
+  color: var(--danger) !important;
+}
+
+.date-picker-box {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-picker-label {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 4px;
+}
+
+.date-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-picker-row input[type="date"] {
+  flex: 1;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.date-picker-row input[type="date"]:focus {
+  border-color: var(--primary);
+}
+
+.date-clear-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 16px;
+  display: grid;
+  place-content: center;
+}
+
+.date-clear-btn:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.active-date-sub {
+  font-size: 13px;
+  color: var(--primary);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Form extras (description, date, time, priority, category) */
+.todo-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-form-extras {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.extra-input {
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.extra-input:focus {
+  background: transparent;
+  border-color: var(--primary);
+}
+
+.extra-desc {
+  width: 100%;
+}
+
+.extra-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.extra-controls .extra-input {
+  flex: 1;
+  min-width: 125px;
+}
+
+/* Search & Sort Toolbar */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.search-input {
+  flex: 1;
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+.sort-select {
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+/* Todo item details & badges */
+.title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.todo-description {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 2px;
+  word-break: break-word;
+}
+
+.todo-item.completed .todo-description {
+  text-decoration: line-through;
+  color: var(--faint);
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  text-transform: capitalize;
+}
+
+.badge-priority-high {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.badge-priority-low {
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.badge-category {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.meta-overdue {
+  color: var(--danger) !important;
+  font-weight: 600;
+}
+
+/* Inline Edit Panel */
+.edit-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.edit-desc-input {
+  font-size: 13px;
+}
+
+.edit-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-select {
+  padding: 6px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  outline: none;
+}
+
+.edit-select:focus {
+  border-color: var(--primary);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.save-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background: var(--primary-hover);
+}
+
+.cancel-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.page-btn.active {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+

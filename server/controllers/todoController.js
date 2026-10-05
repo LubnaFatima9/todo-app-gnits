@@ -3,7 +3,7 @@ const Todo = require("../models/Todo");
 // GET /api/todos
 const getTodos = async (req, res) => {
   try {
-    const todos = await Todo.find().sort({ createdAt: -1 });
+    const todos = await Todo.find().sort({ createdAt: 1 });
     res.status(200).json(todos);
   } catch (err) {
     console.error(err);
@@ -14,11 +14,27 @@ const getTodos = async (req, res) => {
 // POST /api/todos
 const createTodo = async (req, res) => {
   try {
-    const { title } = req.body;
+    const {
+      title,
+      description = "",
+      dueDate = "",
+      dueTime = "",
+      priority = "medium",
+      category = "",
+    } = req.body;
     if (!title || !title.trim()) {
       return res.status(400).json({ message: "Title is required" });
     }
-    const todo = await Todo.create({ title: title.trim() });
+    const todo = await Todo.create({
+      title: title.trim(),
+      description: String(description || "").trim(),
+      dueDate: String(dueDate || ""),
+      dueTime: String(dueTime || ""),
+      priority: ["low", "medium", "high"].includes(priority)
+        ? priority
+        : "medium",
+      category: String(category || "").trim(),
+    });
     res.status(201).json(todo);
   } catch (err) {
     console.error(err);
